@@ -7,6 +7,27 @@ Requirements:
 - SSH Access to copy scripts and install autorun package
 - Enabled "Allow installation of applications without a valid digital signature"
 
+[Update]
+To make it more robust and reliable setting up a cronjob will help you to achieve and workaround 
+following use cases
+- Issues with re-mounting USB devices (in case of being unplugged / not ready at restart)
+- Restart VM in case of a VM crash (happend to my homeassistant OS - suddenly went on halt)
+
+Added cronjob
+```
+[/share/CACHEDEV1_DATA/.qpkg/autorun] # vi /etc/config/crontab
+# m h dom m dow cmd
+30 * * * sh /share/CACHEDEV1_DATA/.qpkg/autorun/autorun.sh
+0-59/20 3 * * * /sbin/adjust_time 
+```
+Reloaded cronjob 
+```
+crontab /etc/config/crontab && /etc/init.d/crond.sh restart
+```
+
+[Former instruction]
+From my point obsolete with cron job - still might be of use so you can get proper fs layout.
+
 
 1.) SSH into the NAS and edit qpkg.conf file to create a dummy package:
 ```
